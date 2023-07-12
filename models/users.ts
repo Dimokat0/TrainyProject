@@ -1,8 +1,8 @@
-'use strict';
-const { Model } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import { Model } from 'sequelize';
+
+export default (sequelize: any, DataTypes: any) => {
   class users extends Model {
-    static associate(models) {
+    static associate(models: any) {
       users.belongsTo(models.roles, { foreignKey: 'role_id' });
     }
   }
@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       username: DataTypes.STRING,
       password: DataTypes.STRING,
-      refresh_token: DataTypes.STRING,
       role_id: DataTypes.INTEGER,
     },
     {

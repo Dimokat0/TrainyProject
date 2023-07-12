@@ -1,14 +1,14 @@
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const authService = require("../service/authService");
+import authService from '../service/authService';
 
-router.post("/register", async (req, res) => {
+router.post('/register', async (req: express.Request, res: express.Response) => {
   const { username, password } = req.body;
   await authService.registerUser(username, password);
-  res.send("Register success");
+  res.send('Register success');
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req: express.Request, res: express.Response) => {
   const { username, password } = req.body;
   const result = await authService.loginUser(username, password);
   if (result.success) {
@@ -21,4 +21,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

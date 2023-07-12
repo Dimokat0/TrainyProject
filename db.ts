@@ -1,14 +1,14 @@
-const { Pool } = require("pg");
+import { Pool } from 'pg';
+const db_properties = require('./db_properties.json');
 
-let db_properties = require("./db_properties.json");
 const pool = new Pool(db_properties);
 
-async function initDb() {
+async function initDb(): Promise<void> {
   await createTables();
   await runMigrations();
 }
 
-async function createTables() {
+async function createTables(): Promise<void> {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -26,7 +26,7 @@ async function createTables() {
   );
 }
 
-async function runMigrations() {
+async function runMigrations(): Promise<void> {
   const result = await pool.query(
     `SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'role_id'`
   );
@@ -37,4 +37,4 @@ async function runMigrations() {
   }
 }
 
-module.exports = { pool, initDb };
+export { pool, initDb };

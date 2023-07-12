@@ -1,13 +1,34 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { users } = require('./models');
-const { authenticate, authorize } = require('./authMiddleware');
+import bcrypt from 'bcrypt';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import users from './models';
+import { authenticate, authorize } from './authMiddleware';
+
+interface MyJwtPayload extends JwtPayload {
+  userId: number;
+}
+
+interface VerifyResult {
+  valid: boolean;
+  payload?: MyJwtPayload;
+}
+
+interface NewAccessTokenResult {
+  success: boolean;
+  accessToken?: string;
+}
+
+interface LoginResult {
+  success: boolean;
+  message?: string;
+  accessToken?: string;
+  refreshToken?: string;
+}
 
 let tokens = require('./tokens.json');
 process.env.ACCESS_TOKEN_SECRET = tokens.ACCESS_TOKEN;
 process.env.REFRESH_TOKEN_SECRET = tokens.REFRESH_TOKEN;
 
-async function registerUser(username, password) {
+async function registerUser(username: string, password: string): Promise<void> {
   const hashedPassword = await bcrypt.hash(password, 10);
   await users.create({
     username,
@@ -15,7 +36,7 @@ async function registerUser(username, password) {
   });
 }
 
-async function loginUser(username, password) {
+async function loginUser(username: string, password: string): Promise<LoginResult> {
   const user = await users.findOne({ where: { username } });
 
   if (!user) {
@@ -26,12 +47,12 @@ async function loginUser(username, password) {
     if (match) {
       const accessToken = jwt.sign(
         { userId: user.id },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.ACCESS_TOKEN_SECRET as string,
         { expiresIn: '60m' }
       );
       const refreshToken = jwt.sign(
         { userId: user.id },
-        process.env.REFRESH_TOKEN_SECRET
+        process.env.REFRESH_TOKEN_SECRET as string
       );
       await users.update(
         { refresh_token: refreshToken },
@@ -44,9 +65,9 @@ async function loginUser(username, password) {
   }
 }
 
-function verifyAccessToken(accessToken) {
+function verifyAccessToken(accessToken: string): VerifyResult {
   try {
-    const payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+    const payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string) as MyJwtPayload;
     return { valid: true, payload };
   } catch (err) {
     console.log(err);
@@ -54,9 +75,9 @@ function verifyAccessToken(accessToken) {
   }
 }
 
-async function generateNewAccessToken(refreshToken) {
+async function generateNewAccessToken(refreshToken: string): Promise<NewAccessTokenResult> {
   try {
-    const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as MyJwtPayload;
     const userId = payload.userId;
 
     const user = await users.findOne({
@@ -68,7 +89,7 @@ async function generateNewAccessToken(refreshToken) {
     } else {
       const accessToken = jwt.sign(
         { userId },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.ACCESS_TOKEN_SECRET as string,
         { expiresIn: '60m' }
       );
       return { success: true, accessToken };
@@ -78,11 +99,12 @@ async function generateNewAccessToken(refreshToken) {
   }
 }
 
-module.exports = {
+export {
   registerUser,
   loginUser,
   verifyAccessToken,
   generateNewAccessToken,
   authenticate,
   authorize,
+  LoginResult,
 };
