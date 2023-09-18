@@ -1,24 +1,18 @@
-import { Model } from 'sequelize';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import { users } from './users';
 
-export default (sequelize: any, DataTypes: any) => {
-  class roles extends Model {
-    static associate(models: any) {
-      roles.hasMany(models.users, { foreignKey: 'role_id' });
-    }
-  }
-  roles.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'roles',
-    }
-  );
-  return roles;
-};
+@Table
+export class roles extends Model {
+  @Column({
+    primaryKey: true,
+    autoIncrement: true,
+    type: DataType.INTEGER
+  })
+  id!: number;
+
+  @Column({type: DataType.STRING})
+  name!: string;
+
+  @HasMany(() => users)
+  users!: users[];
+}

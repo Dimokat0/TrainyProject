@@ -1,7 +1,20 @@
 import { Pool } from 'pg';
-const db_properties = require('./db_properties.json');
 
-const pool = new Pool(db_properties);
+const db_properties = {
+  "user":"postgres",
+  "password":"qwerty",
+  "host":"localhost",
+  "database":"first_project",
+  "port":5432
+};
+
+const pool = new Pool({
+  user: db_properties.user,
+  password: db_properties.password,
+  host: db_properties.host,
+  database: db_properties.database,
+  port: db_properties.port
+})
 
 async function initDb(): Promise<void> {
   await createTables();

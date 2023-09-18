@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import users from './models';
+import { users } from './models';
 import { authenticate, authorize } from './authMiddleware';
 
 interface MyJwtPayload extends JwtPayload {
@@ -24,7 +24,7 @@ interface LoginResult {
   refreshToken?: string;
 }
 
-let tokens = require('./tokens.json');
+const tokens = {"ACCESS_TOKEN":"a4xupeKrawRyD9InXhdR", "REFRESH_TOKEN":"WIKMpCMUlGkJJmNDAdQK"}
 process.env.ACCESS_TOKEN_SECRET = tokens.ACCESS_TOKEN;
 process.env.REFRESH_TOKEN_SECRET = tokens.REFRESH_TOKEN;
 

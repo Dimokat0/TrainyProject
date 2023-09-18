@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import userService from '../../user/service/userService';
 import { LoginResult } from '../../auth';
 
-let tokens = require('../../tokens.json');
+const tokens = {"ACCESS_TOKEN":"a4xupeKrawRyD9InXhdR", "REFRESH_TOKEN":"WIKMpCMUlGkJJmNDAdQK"}
 process.env.ACCESS_TOKEN_SECRET = tokens.ACCESS_TOKEN;
 process.env.REFRESH_TOKEN_SECRET = tokens.REFRESH_TOKEN;
 

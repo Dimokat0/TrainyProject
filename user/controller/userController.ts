@@ -1,7 +1,7 @@
 import express from 'express';
-const router = express.Router();
 import userService from '../service/userService';
 import userRepository from '../repository/userRepository';
+const router = express.Router();
 
 router.get('/', async (req: express.Request, res: express.Response) => {
   const users = await userRepository.getAllUsers();

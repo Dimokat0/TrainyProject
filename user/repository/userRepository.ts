@@ -1,7 +1,6 @@
-import db from '../../models';
+import { users, roles } from '../../models';
+import sequelize from '../../sequelize';
 import bcrypt from 'bcrypt';
-
-const { users, roles } = db;
 
 interface User {
   username: string;
@@ -15,7 +14,7 @@ class UserRepository {
       roleId = 1;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    await users.create({
+    await sequelize.models.users.create({
       username,
       password: hashedPassword,
       role_id: roleId,
@@ -38,35 +37,35 @@ class UserRepository {
     if (roleId) {
       updateData.role_id = roleId;
     }
-    await users.update(updateData, { where: { id } });
+    await sequelize.models.users.update(updateData, { where: { id } });
   }
-  
+
 
   async updateUserRefreshToken(userId: number, refreshToken: string): Promise<void> {
-    await users.update(
+    await sequelize.models.users.update(
       { refresh_token: refreshToken },
       { where: { id: userId } }
     );
   }
 
   async getUserById(id: number): Promise<any> {
-    return await users.findByPk(id);
+    return await sequelize.models.users.findByPk(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | null> {
-    return await users.findOne({ where: { username } });
+  async getUserByUsername(username: string): Promise<any> {
+    return await sequelize.models.users.findOne({ where: { username } });
   }
 
   async getAllUsers(): Promise<any[]> {
-    return await users.findAll();
+    return await sequelize.models.users.findAll();
   }
 
   async deleteUser(id: number): Promise<void> {
-    await users.destroy({ where: { id } });
+    await sequelize.models.users.destroy({ where: { id } });
   }
 
   async getRoles(): Promise<any[]> {
-    return await roles.findAll();
+    return await sequelize.models.roles.findAll();
   }
 }
 

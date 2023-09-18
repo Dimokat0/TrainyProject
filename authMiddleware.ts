@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import users from './models';
-import roles from './models';
+import { users } from './models';
+import { roles } from './models';
 import express from 'express';
 
 interface MyJwtPayload extends jwt.JwtPayload {
