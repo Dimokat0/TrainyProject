@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
-        type: Sequelize.NUMERIC
-      },
       username: {
         type: Sequelize.STRING
       },
@@ -22,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       role_id: {
-        type: Sequelize.NUMERIC
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

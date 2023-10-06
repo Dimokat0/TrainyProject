@@ -14,7 +14,6 @@ class AuthRepository {
 
   async loginUser(username: string, password: string): Promise<LoginResult> {
     const user = await userService.getUserByUsername(username);
-
     if (!user) {
       return { success: false, message: 'Wrong username!' };
     } else {
@@ -30,8 +29,9 @@ class AuthRepository {
           { userId: user.id },
           process.env.REFRESH_TOKEN_SECRET as string
         );
+        const userId = user.id;
         await userService.updateUserRefreshToken(user.id, refreshToken);
-        return { success: true, accessToken, refreshToken };
+        return { success: true, accessToken, refreshToken, userId };
       } else {
         return { success: false, message: 'Wrong password!' };
       }

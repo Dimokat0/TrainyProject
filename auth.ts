@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { users } from './models';
 import { authenticate, authorize } from './authMiddleware';
+import { users } from './models/users'
 
 interface MyJwtPayload extends JwtPayload {
   userId: number;
@@ -22,6 +22,7 @@ interface LoginResult {
   message?: string;
   accessToken?: string;
   refreshToken?: string;
+  userId?: number;
 }
 
 const tokens = {"ACCESS_TOKEN":"a4xupeKrawRyD9InXhdR", "REFRESH_TOKEN":"WIKMpCMUlGkJJmNDAdQK"}
@@ -58,7 +59,8 @@ async function loginUser(username: string, password: string): Promise<LoginResul
         { refresh_token: refreshToken },
         { where: { id: user.id } }
       );
-      return { success: true, accessToken, refreshToken };
+      const userId: number = user.id
+      return { success: true, accessToken, refreshToken, userId };
     } else {
       return { success: false, message: 'Wrong password!' };
     }

@@ -37,12 +37,12 @@ function authenticate(req: express.Request, res: express.Response, next: express
     req.user = payload;
     next();
   } catch (err) {
+    console.log(err);
     return res.sendStatus(403); // Forbidden
   }
 }
 
-
-function authorize(role: string) {
+function authorize(roles: string[]) {
   return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (!req.user) {
       return res.sendStatus(401); // Unauthorized
@@ -50,18 +50,17 @@ function authorize(role: string) {
     const userId = req.user.userId;
     const user = await users.findOne({
       where: { id: userId },
-      include: roles,
+      include: 'role',
     });
     if (!user) {
       return res.sendStatus(404); // Not Found
     } else {
-      if (user.role.name !== role) {
+      if (!roles.includes(user.role.name)) {
         return res.sendStatus(403); // Forbidden
       }
       next();
     }
   };
 }
-
 
 export { authenticate, authorize };

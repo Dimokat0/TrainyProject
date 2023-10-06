@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def copytree(src, dst, ignore_files=[], ignore_dirs=[]):
+def copytree(src: str, dst: str, ignore_files: list = [], ignore_dirs: list = []) -> bool:
     if not os.path.exists(dst):
         os.makedirs(dst)
     for item in os.listdir(src):
@@ -13,8 +13,9 @@ def copytree(src, dst, ignore_files=[], ignore_dirs=[]):
         else:
             if item not in ignore_files and not item.endswith('.ts'):
                 shutil.copy2(s, d)
+    os.system('tsc')
 
-ignore_files = ['nonTs_copy.js', '.gitignore', 'README.md', 'package-lock.json', 'tsconfig.json', 'nonts_copy.py']
+ignore_files = ['.gitignore', 'README.md', 'package-lock.json', 'tsconfig.json', 'compile_all.py']
 ignore_dirs = ['node_modules', 'dist', '.git']
 
 copytree('.', 'dist', ignore_files, ignore_dirs)

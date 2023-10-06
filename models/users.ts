@@ -1,5 +1,6 @@
-import { Table, Column, Model, ForeignKey, BelongsTo, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsTo, DataType, HasMany } from 'sequelize-typescript';
 import { roles } from './roles';
+import { posts } from './posts';
 
 @Table
 export class users extends Model {
@@ -8,7 +9,7 @@ export class users extends Model {
     autoIncrement: true,
     type: DataType.INTEGER
   })
-  id!: number;
+  id!: number;  
 
   @Column({
     type: DataType.INTEGER
@@ -28,4 +29,7 @@ export class users extends Model {
 
   @BelongsTo(() => roles)
   role!: roles;
+
+  @HasMany(() => posts)
+  posts!: posts[];
 }

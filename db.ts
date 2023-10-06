@@ -37,6 +37,15 @@ async function createTables(): Promise<void> {
         name TEXT
         );`
   );
+
+  await pool.query(
+    `CREATE TABLE IF NOT EXISTS posts (
+      id SERIAL PRIMARY KEY,
+      name TEXT,
+      date DATE,
+      caption TEXT
+    );`
+  )
 }
 
 async function runMigrations(): Promise<void> {

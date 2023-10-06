@@ -15,6 +15,7 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
     res.json({
       accessToken: result.accessToken,
       refreshToken: result.refreshToken,
+      userId: result.userId,
     });
   } else {
     res.send(result.message);

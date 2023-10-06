@@ -20,7 +20,7 @@ router.get('/roles', async (req: express.Request, res: express.Response) => {
 });
 
 router.get('/roles/:id', async (req: express.Request, res: express.Response) => {
-  const { id } = req.params;
+  const { id } = req.params;  
   const role = await userRepository.getRoleById(parseInt(id));
   res.json(role);
 });
