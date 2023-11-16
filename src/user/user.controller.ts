@@ -8,7 +8,10 @@ import {
   Delete,
   NotFoundException,
   Headers,
+  UseGuards,
+  SetMetadata,
 } from '@nestjs/common';
+import { RolesGuard } from 'src/auth/roles.guard';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -48,6 +51,8 @@ export class UserController {
     return { success: true };
   }
 
+  @UseGuards(RolesGuard)
+  @SetMetadata('roles', [2, 3])
   @Patch(':id')
   updateUser(
     @Param('id') id: number,
@@ -59,6 +64,8 @@ export class UserController {
     return { success: true };
   }
 
+  @UseGuards(RolesGuard)
+  @SetMetadata('roles', [2, 3])
   @Delete(':id')
   deleteUser(@Param('id') id: number) {
     this.userService.deleteUser(id);

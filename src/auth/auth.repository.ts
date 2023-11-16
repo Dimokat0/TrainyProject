@@ -49,6 +49,7 @@ export class AuthRepository {
       });
       user.access_token = accessToken;
       user.refresh_token = refreshToken;
+      user.roleId = 1;
       user.save();
       return {
         success: true,
