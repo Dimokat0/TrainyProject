@@ -16,8 +16,4 @@ export class AuthService {
   accessToken(refreshToken: string) {
     return this.authRepository.generateNewAccessToken(refreshToken);
   }
-
-  validateUser(username: string, password: string) {
-    return this.authRepository.loginUser(username, password);
-  }
 }

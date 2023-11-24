@@ -5,8 +5,10 @@ import {
   ForeignKey,
   BelongsTo,
   DataType,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { User } from '../user/user.model';
+import { Tag } from '../tags/tag.model';
 
 @Table
 export class Post extends Model {
@@ -32,4 +34,11 @@ export class Post extends Model {
 
   @BelongsTo(() => User, 'authorId')
   author: User;
+
+  @BelongsToMany(() => Tag, {
+    through: 'PostTags',
+    foreignKey: 'postId',
+    otherKey: 'tagId',
+  })
+  tags: Tag[];
 }

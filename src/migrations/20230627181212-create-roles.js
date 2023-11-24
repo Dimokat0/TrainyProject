@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -23,7 +25,7 @@ module.exports = {
     });
     await queryInterface.bulkInsert('Roles', [{
         id: 1,
-        name: '1',
+        name: 'member',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {

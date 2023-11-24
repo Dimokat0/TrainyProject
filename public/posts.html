@@ -16,6 +16,14 @@
         .edit-btn, .manage-users-btn {
             display: none;
         }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 2px;
+            border: 1px solid gray;
+            border-radius: 12px;
+            background-color: #f4f4f4;
+        }        
     </style>
 </head>
 <body>
@@ -65,10 +73,19 @@
                     postDiv.innerHTML = `
                         <h2 contenteditable="false">${post.name}</h2>
                         <p contenteditable="false">${post.caption}</p>
+                        <div class="tags"></div>
                         <small>By ${post.author.username} on ${new Date(post.date).toLocaleDateString()}</small>
                         <div><button class="edit-btn" style="display: none;">Edit</button><button class="delete-btn", style="display: none;">Delete</button></div>
                         <div><button class="confirm-btn" style="display: none;">Confirm</button></div>`;
                     postsContainer.appendChild(postDiv);
+
+                    const tagsDiv = postDiv.querySelector(".tags");
+                    post.tags.forEach(tag => {
+                        const tagSpan = document.createElement("span");
+                        tagSpan.classList.add("tag");
+                        tagSpan.textContent = tag;
+                        tagsDiv.appendChild(tagSpan);
+                    });
 
                     // Delete button functionality
                     const deleteBtn = postDiv.querySelector(".delete-btn")
@@ -84,22 +101,29 @@
                     const confirmBtn = postDiv.querySelector(".confirm-btn");
                     const h2 = postDiv.querySelector("h2");
                     const p = postDiv.querySelector("p");
+                    const input = postDib.querySelector(".tags-input");
+
+                    const tagsInput = postDiv.querySelector(".tags-input");
+                    const tags = tagsInput.value.split(',').map(tag => tag.trim());
 
                     editBtn.addEventListener('click', function() {
                         h2.contentEditable = true;
                         p.contentEditable = true;
+                        input.style.display = "block";
                         confirmBtn.style.display = "block";
                     });
 
                     confirmBtn.addEventListener('click', function() {
                         h2.contentEditable = false;
                         p.contentEditable = false;
+                        input.style.display = "none";
                         confirmBtn.style.display = "none";
                         
                         sendRequest('PATCH', '/posts/' + post.id, {
                             id: post.id,
                             name: h2.textContent,
-                            caption: p.textContent
+                            caption: p.textContent,
+                            tags: tags,
                         });
                     });
                 });
@@ -130,25 +154,31 @@
             postDiv.innerHTML = `
                 <h2 contenteditable="true"></h2>
                 <p contenteditable="true"></p>
+                <input class="tags-input" placeholder="Enter tags separated by commas">
                 <div><button class="confirm-btn">Confirm</button></div>`;
             postsContainer.prepend(postDiv);
         
             const confirmBtn = postDiv.querySelector(".confirm-btn");
             const h2 = postDiv.querySelector("h2");
             const p = postDiv.querySelector("p");
-        
+            const input = postDiv.querySelector(".tags-input");
+
+            const tagsInput = postDiv.querySelector(".tags-input");
+            const tags = tagsInput.value.split(',').map(tag => tag.trim());
+
             confirmBtn.addEventListener('click', function() {
                 h2.contentEditable = false;
                 p.contentEditable = false;
+                input.style.display = "none";
                 sendRequest('POST', '/posts', {
                     name: h2.textContent,
                     caption: p.textContent,
+                    tags: tags
                 })
             confirmBtn.remove()
             });
         });
         fetchPosts().then(() => checkUserType());
     </script>
-    
 </body>
 </html>

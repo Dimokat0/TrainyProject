@@ -9,6 +9,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './user/user.model';
 import { Role } from './role/role.model';
 import { Post } from './post/post.model';
+import { Tag } from './tags/tag.model';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { Post } from './post/post.model';
       username: 'postgres',
       password: 'qwerty',
       database: 'first_project',
-      models: [User, Role, Post],
+      models: [User, Role, Post, Tag],
       synchronize: true,
     }),
     AuthModule,
