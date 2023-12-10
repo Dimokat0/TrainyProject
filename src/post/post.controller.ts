@@ -27,8 +27,16 @@ export class PostController {
     @Body('name') name: string,
     @Body('caption') caption: string,
     @Headers('authorization') access_token: string,
+    @Body('tags') tagNames: string[],
+    @Body('category') categoryName: string,
   ) {
-    return this.postService.createPost(name, caption, access_token);
+    return this.postService.createPost(
+      name,
+      caption,
+      access_token,
+      tagNames,
+      categoryName,
+    );
   }
 
   @UseGuards(RolesGuard)
@@ -38,8 +46,28 @@ export class PostController {
     @Param('id') id: number,
     @Body('name') name: string,
     @Body('caption') caption: string,
+    @Body('tags') tagNames: string[],
+    @Body('category') categoryName: string,
   ) {
-    return this.postService.updatePost(id, name, caption);
+    // console.log(
+    //   'ID: ' +
+    //     id +
+    //     '\nname: ' +
+    //     name +
+    //     '\ncaption: ' +
+    //     caption +
+    //     '\ntags: ' +
+    //     tagNames +
+    //     '\ncategory: ' +
+    //     categoryName,
+    // );
+    return this.postService.updatePost(
+      id,
+      name,
+      caption,
+      tagNames,
+      categoryName,
+    );
   }
 
   @UseGuards(RolesGuard)

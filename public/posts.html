@@ -13,6 +13,13 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+        h3 {
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 2px;
+            border: 1px solid gray;
+            background-color: #f4f4f4;
+        }
         .edit-btn, .manage-users-btn {
             display: none;
         }
@@ -64,15 +71,22 @@
 
         async function fetchPosts() {
             try {
-                const response = await fetch("/posts");
-                const posts = await response.json();
+                const posts = await sendRequest("GET", "/posts");
+                console.log(posts);
                 const postsContainer = document.getElementById("posts");
                 posts.forEach(post => {
                     const postDiv = document.createElement("div");
                     postDiv.classList.add("post");
+                    let categoryName;
+                    try {
+                        categoryName = post.category.name;
+                    } catch {
+                        categoryName = 'No Category';
+                    }
                     postDiv.innerHTML = `
                         <h2 contenteditable="false">${post.name}</h2>
                         <p contenteditable="false">${post.caption}</p>
+                        <div><h3 contenteditable="false">${categoryName}</h3></div>
                         <div class="tags"></div>
                         <small>By ${post.author.username} on ${new Date(post.date).toLocaleDateString()}</small>
                         <div><button class="edit-btn" style="display: none;">Edit</button><button class="delete-btn", style="display: none;">Delete</button></div>
@@ -83,7 +97,13 @@
                     post.tags.forEach(tag => {
                         const tagSpan = document.createElement("span");
                         tagSpan.classList.add("tag");
-                        tagSpan.textContent = tag;
+                        let tagName;
+                        try {
+                            tagName = tag.name;
+                        } catch {
+                            tagName = "No tags";
+                        }
+                        tagSpan.textContent = tagName;
                         tagsDiv.appendChild(tagSpan);
                     });
 
@@ -101,30 +121,37 @@
                     const confirmBtn = postDiv.querySelector(".confirm-btn");
                     const h2 = postDiv.querySelector("h2");
                     const p = postDiv.querySelector("p");
-                    const input = postDib.querySelector(".tags-input");
-
-                    const tagsInput = postDiv.querySelector(".tags-input");
-                    const tags = tagsInput.value.split(',').map(tag => tag.trim());
+                    const h3 = postDiv.querySelector("h3");
+                    const tagElements = tagsDiv.querySelectorAll("span");
 
                     editBtn.addEventListener('click', function() {
                         h2.contentEditable = true;
                         p.contentEditable = true;
-                        input.style.display = "block";
                         confirmBtn.style.display = "block";
+                        tagElements.forEach(tag => {
+                            tag.contentEditable = true;
+                        });
+                        h3.contentEditable = true;
                     });
 
                     confirmBtn.addEventListener('click', function() {
                         h2.contentEditable = false;
                         p.contentEditable = false;
-                        input.style.display = "none";
+                        h3.contentEditable = false;
+                        const tags = [];
+                        tagElements.forEach(tag => {
+                            tag.contentEditable = false;
+                            tags.push(tag.textContent);
+                        });
                         confirmBtn.style.display = "none";
-                        
+
                         sendRequest('PATCH', '/posts/' + post.id, {
                             id: post.id,
                             name: h2.textContent,
                             caption: p.textContent,
                             tags: tags,
-                        });
+                            category: h3.textContent,
+                        });                        
                     });
                 });
             } catch (error) {
@@ -138,7 +165,7 @@
                     "authorization": getCookie("accessToken"),
                 },
             });
-            // if user 2 then show edit and delete buttons
+            // if user 2 or 3 then show edit and delete buttons
             const check = await response.json();
             if (check.userType === 2 | check.userType === 3) {
                 document.querySelectorAll(".edit-btn").forEach(btn => btn.style.display = "inline-block");
@@ -154,27 +181,28 @@
             postDiv.innerHTML = `
                 <h2 contenteditable="true"></h2>
                 <p contenteditable="true"></p>
-                <input class="tags-input" placeholder="Enter tags separated by commas">
+                <div><h3 contenteditable="true"</h3></div>
+                <div><input class="tags-input" placeholder="Enter tags separated by commas"></div>
                 <div><button class="confirm-btn">Confirm</button></div>`;
             postsContainer.prepend(postDiv);
-        
             const confirmBtn = postDiv.querySelector(".confirm-btn");
             const h2 = postDiv.querySelector("h2");
             const p = postDiv.querySelector("p");
-            const input = postDiv.querySelector(".tags-input");
-
-            const tagsInput = postDiv.querySelector(".tags-input");
-            const tags = tagsInput.value.split(',').map(tag => tag.trim());
+            const h3 = postDiv.querySelector("h3");
+            const tagsI = postDiv.querySelector(".tags-input");
 
             confirmBtn.addEventListener('click', function() {
                 h2.contentEditable = false;
                 p.contentEditable = false;
-                input.style.display = "none";
-                sendRequest('POST', '/posts', {
+                h3.contentEditable = false;
+                const tags = tagsI.value.split(',').map(tag => tag.trim());
+                console.log('Name: ' + h2.textContent + '\nCaption: ' + p.textContent + '\nTags: ' + tags + '\nCategory: ' + h3.textContent);
+                sendRequest('POST', '/posts/', {
                     name: h2.textContent,
                     caption: p.textContent,
-                    tags: tags
-                })
+                    tags: tags,
+                    category: h3.textContent,
+                });                
             confirmBtn.remove()
             });
         });

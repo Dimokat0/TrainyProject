@@ -6,9 +6,11 @@ import {
   BelongsTo,
   DataType,
   BelongsToMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { User } from '../user/user.model';
 import { Tag } from '../tags/tag.model';
+import { Category } from 'src/category/category.model';
 
 @Table
 export class Post extends Model {
@@ -41,4 +43,7 @@ export class Post extends Model {
     otherKey: 'tagId',
   })
   tags: Tag[];
+
+  @HasOne(() => Category)
+  category: Category;
 }

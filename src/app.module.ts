@@ -10,6 +10,7 @@ import { User } from './user/user.model';
 import { Role } from './role/role.model';
 import { Post } from './post/post.model';
 import { Tag } from './tags/tag.model';
+import { Category } from './category/category.model';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { Tag } from './tags/tag.model';
       username: 'postgres',
       password: 'qwerty',
       database: 'first_project',
-      models: [User, Role, Post, Tag],
+      models: [User, Role, Post, Tag, Category],
       synchronize: true,
     }),
     AuthModule,

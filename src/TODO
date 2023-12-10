@@ -1,0 +1,4 @@
+ - Endpoints and everything now is being displayed correctly, now should add Google and Facebook register & login
+ - Should be created endpoints for registering and logining
+ - Should be used their API's
+ - If client already registered and trying to register through Google or Facebook he should be redirected to login page

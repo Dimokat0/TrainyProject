@@ -9,12 +9,36 @@ export class PostService {
     return this.postRepository.getAllPosts();
   }
 
-  createPost(name: string, caption: string, access_token: string) {
-    return this.postRepository.createPost(name, caption, access_token);
+  createPost(
+    name: string,
+    caption: string,
+    access_token: string,
+    tagNames: string[],
+    categoryName: string,
+  ) {
+    return this.postRepository.createPost(
+      name,
+      caption,
+      access_token,
+      tagNames,
+      categoryName,
+    );
   }
 
-  updatePost(id: number, name?: string, caption?: string) {
-    return this.postRepository.updatePost(id, name, caption);
+  updatePost(
+    id: number,
+    name?: string,
+    caption?: string,
+    tagNames?: string[],
+    categoryName?: string,
+  ) {
+    return this.postRepository.updatePost(
+      id,
+      name,
+      caption,
+      tagNames,
+      categoryName,
+    );
   }
 
   deletePost(id: number) {
