@@ -66,6 +66,7 @@
         document.cookie = "accessToken=" + result.accessToken + "; max-age=3600";
         document.cookie = "refreshToken=" + result.refreshToken + "; max-age=3600";
         alert(result.message);
+        window.location.href = "/postsPage";
       });
     </script>
   </body>

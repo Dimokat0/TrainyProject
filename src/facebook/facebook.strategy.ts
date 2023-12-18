@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-facebook';
 import { config } from 'dotenv';
 
+config();
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
   constructor() {
@@ -31,6 +32,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     const payload = {
       user,
       accessToken,
+      refreshToken,
     };
 
     done(null, payload);

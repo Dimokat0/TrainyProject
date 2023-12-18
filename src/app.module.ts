@@ -15,6 +15,7 @@ import { GoogleModule } from './google/google.module';
 import { MiddlewareConsumer, NestModule } from '@nestjs/common/interfaces';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { RequestMethod } from '@nestjs/common/enums';
+import { FacebookModule } from './facebook/facebook.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { RequestMethod } from '@nestjs/common/enums';
     PostModule,
     UserModule,
     GoogleModule,
+    FacebookModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],
