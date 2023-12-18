@@ -1,4 +1,5 @@
- - Endpoints and everything now is being displayed correctly, now should add Google and Facebook register & login
- - Should be created endpoints for registering and logining
- - Should be used their API's
- - If client already registered and trying to register through Google or Facebook he should be redirected to login page
+ - Create g_id in user model;
+ - Authorize user through checking his g_id, getting his id, returning his access_token from db, or creating a new one if the user is being created.
+ - Make a redirection
+
+ - Same for Fb later

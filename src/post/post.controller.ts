@@ -49,18 +49,6 @@ export class PostController {
     @Body('tags') tagNames: string[],
     @Body('category') categoryName: string,
   ) {
-    // console.log(
-    //   'ID: ' +
-    //     id +
-    //     '\nname: ' +
-    //     name +
-    //     '\ncaption: ' +
-    //     caption +
-    //     '\ntags: ' +
-    //     tagNames +
-    //     '\ncategory: ' +
-    //     categoryName,
-    // );
     return this.postService.updatePost(
       id,
       name,

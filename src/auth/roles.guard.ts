@@ -7,16 +7,6 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UserService } from 'src/user/user.service';
-import { MyJwtPayload } from './auth.repository';
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Express {
-    interface Request {
-      user?: MyJwtPayload;
-    }
-  }
-}
 
 @Injectable()
 export class RolesGuard implements CanActivate {

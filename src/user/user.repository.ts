@@ -28,6 +28,7 @@ export class UserRepository {
   }
 
   async getUserByToken(access_token: string): Promise<User> {
+    console.log('Access Token:', access_token);
     const payload = jwt.verify(
       access_token,
       this.configService.get<string>('ACCESS_TOKEN_SECRET'),

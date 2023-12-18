@@ -10,7 +10,7 @@ import { Post } from 'src/post/post.model';
 @Table
 export class Tag extends Model {
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.BIGINT,
     primaryKey: true,
     autoIncrement: true,
   })

@@ -79,6 +79,9 @@ export class AuthRepository {
       const refreshToken = jwt.sign({ userId: user.id }, refreshTokenSecret, {
         expiresIn: '1h',
       });
+      user.access_token = accessToken;
+      user.refresh_token = refreshToken;
+      user.save();
       return {
         success: true,
         accessToken: accessToken,

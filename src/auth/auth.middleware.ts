@@ -10,15 +10,6 @@ import { MyJwtPayload } from './auth.repository';
 import { UserService } from 'src/user/user.service';
 import { Request, Response, NextFunction } from 'express';
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Express {
-    interface Request {
-      user?: MyJwtPayload;
-    }
-  }
-}
-
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(

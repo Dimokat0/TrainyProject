@@ -11,6 +11,10 @@ import { Role } from './role/role.model';
 import { Post } from './post/post.model';
 import { Tag } from './tags/tag.model';
 import { Category } from './category/category.model';
+import { GoogleModule } from './google/google.module';
+import { MiddlewareConsumer, NestModule } from '@nestjs/common/interfaces';
+import { AuthMiddleware } from './auth/auth.middleware';
+import { RequestMethod } from '@nestjs/common/enums';
 
 @Module({
   imports: [
@@ -27,9 +31,19 @@ import { Category } from './category/category.model';
     AuthModule,
     PostModule,
     UserModule,
+    GoogleModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],
   exports: [ConfigModule],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(
+        { path: 'manageUsersPage/', method: RequestMethod.GET },
+        { path: 'postsPage/', method: RequestMethod.GET },
+      );
+  }
+}

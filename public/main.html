@@ -4,15 +4,72 @@
     <title>Main Page</title>
     <style>
       body {
-          color: white;
-          background: #333;
-          text-align: center;
-          padding-top: 100px;
+        color: #333;
+        background: linear-gradient(to right, #fff, #cacaca);
+        text-align: center;
+        padding-top: 100px;
+        font-family: Arial, sans-serif;
+      }
+      a {
+        color: #333;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        background: #f2f2f2;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+      }
+      a:hover {
+        background: #bbb;
+      }
+      #btns-container {
+        display: inline-block;
+        padding: 20px;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+      }
+      #google-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        gap: 10px;
+        color: white;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+      }
+      #google-btn:hover {
+        background: #bbb;
+        stroke: white;
+        cursor: pointer;
+      }
+      #google-btn span {
+        color: #333;
       }
     </style>
   </head>
   <body>
     <h1>Welcome to the Main Page</h1>
-    <a href="/loginPage">Login</a> | <a href="/registerPage">Register</a>
+    <div id="btns-container">
+      <a href="/loginPage">Login</a> &nbsp; <a href="/registerPage">Register</a>
+      <br>
+      <br>
+      <button id="google-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="21.17" x2="12" y1="8" y2="8"></line>
+          <line x1="3.95" x2="8.54" y1="6.06" y2="14"></line>
+          <line x1="10.88" x2="15.46" y1="21.94" y2="14"></line>
+        </svg>
+        <span>Login with Google</span>
+      </button>
+    </div>
+    <script>
+      const google_btn = document.querySelector("#google-btn");
+      google_btn.addEventListener("click", () => {window.location.href = "/google"});
+    </script>
   </body>
 </html>

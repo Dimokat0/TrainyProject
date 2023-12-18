@@ -3,25 +3,53 @@
     <title>Posts Page</title>
     <style>
         body {
-            color: black;
-            background: #f4f4f4;
+            color: #333;
+            background: linear-gradient(to right, #fff, #cacaca);
+            text-align: center;
+            padding-top: 100px;
             font-family: Arial, sans-serif;
         }
         .post {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 10px;
+            background: #f2f2f2;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .post h2, .post p, .post h3 {
             margin-bottom: 10px;
         }
-        h3 {
-            display: inline-block;
-            padding: 2px 8px;
-            margin: 2px;
-            border: 1px solid gray;
-            background-color: #f4f4f4;
+        .post input[type="text"], .post input[type="password"] {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 20px;
         }
-        .edit-btn, .manage-users-btn {
-            display: none;
+        .post button {
+            padding: 10px 20px;
+            background: #bbb;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 10%;
+        }
+        .post button:hover {
+            background: #aaa;
+            border-radius: 15%;
+        }
+        a {
+            color: #333;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f2f2f2;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        a:hover {
+            background: #bbb;
         }
         .tag {
             display: inline-block;
@@ -30,12 +58,25 @@
             border: 1px solid gray;
             border-radius: 12px;
             background-color: #f4f4f4;
-        }        
-    </style>
+        }
+        .manage-users-btn, .create-post-btn {
+            padding: 10px 20px;
+            background: #bbb;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 10%;
+        }
+        .manage-users-btn:hover, .create-post-btn:hover {
+            background: #aaa;
+            border-radius: 15%;
+        }
+    </style>    
 </head>
 <body>
     <h1>Posts</h1>
-    <div><button id="create-post-btn">Create Post</button><button class="manage-users-btn" onclick="window.location.href='/manageUsersPage'">Manage Users</button></div>
+    <div><button class="create-post-btn">Create Post</button> &nbsp; <button class="manage-users-btn" onclick="window.location.href='/manageUsersPage'">Manage Users</button></div>
+    <div><h1></h1></a></div>
     <div id="posts"></div>
     <script>
         function getCookie(name) {
@@ -72,7 +113,6 @@
         async function fetchPosts() {
             try {
                 const posts = await sendRequest("GET", "/posts");
-                console.log(posts);
                 const postsContainer = document.getElementById("posts");
                 posts.forEach(post => {
                     const postDiv = document.createElement("div");
@@ -174,7 +214,7 @@
             }
         }
         // Create post
-        document.getElementById('create-post-btn').addEventListener('click', function() {
+            document.querySelector(".create-post-btn").addEventListener('click', function() {
             const postsContainer = document.getElementById("posts");
             const postDiv = document.createElement("div");
             postDiv.classList.add("post");

@@ -15,7 +15,7 @@ import { Category } from 'src/category/category.model';
 @Table
 export class Post extends Model {
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.BIGINT,
     autoIncrement: true,
     primaryKey: true,
   })

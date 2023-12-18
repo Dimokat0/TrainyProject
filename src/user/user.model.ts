@@ -13,11 +13,21 @@ import { Post } from '../post/post.model';
 @Table
 export class User extends Model {
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.BIGINT,
     primaryKey: true,
     autoIncrement: true,
   })
   id: number;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  g_id: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  f_id: string;
 
   @Column({
     type: DataType.STRING,
