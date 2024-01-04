@@ -1,5 +1,4 @@
- - Create g_id in user model;
- - Authorize user through checking his g_id, getting his id, returning his access_token from db, or creating a new one if the user is being created.
- - Make a redirection
-
- - Same for Fb later
+ - Make a mail sending system
+ - - Use nodemailer with sendgrid to create a mail service
+ - - Make a controller to get send requests
+ - - Make sure that requester is authorized and has admin rights

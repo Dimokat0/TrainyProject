@@ -16,6 +16,8 @@ import { MiddlewareConsumer, NestModule } from '@nestjs/common/interfaces';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { RequestMethod } from '@nestjs/common/enums';
 import { FacebookModule } from './facebook/facebook.module';
+import { BullModule } from '@nestjs/bull';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -34,6 +36,13 @@ import { FacebookModule } from './facebook/facebook.module';
     UserModule,
     GoogleModule,
     FacebookModule,
+    MailModule,
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

@@ -38,4 +38,4 @@ lerna-debug.log*
 .env
 
 # Other
-TODO
+src/TODO
